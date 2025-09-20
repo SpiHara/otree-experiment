@@ -1,0 +1,10 @@
+{% extends "global/Page.html" %}
+
+{% block content %}
+<h2>自己申告</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ formfields }}
+    <button type="submit">次へ</button>
+</form>
+{% endblock %}

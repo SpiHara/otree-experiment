@@ -1,0 +1,50 @@
+{% extends "global/Page.html" %}
+{% load static %}
+
+{% block content %}
+<h3>問題 {{ question_number }}/{{ total_questions }}</h3>
+{% if competitor %}
+<p>競争者がいる状況です！</p>
+{% else %}
+<p>競争者はいません。</p>
+{% endif %}
+
+<p id="question"></p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ formfields }}
+    <button type="submit">回答</button>
+</form>
+
+<p id="full_question" style="display:none;">{{ question_text }}</p>
+<p id="correct_answer" style="display:none;">正解: {{ correct_answer }}</p>
+
+<script>
+let text = "{{ question_text|escapejs }}";
+let i = 0;
+let questionElem = document.getElementById('question');
+
+let startTime = Date.now();
+player = player || {};
+player.participant_vars = player.participant_vars || {};
+player.participant_vars.start_time = startTime;
+
+function typeWriter() {
+    if (i < text.length) {
+        questionElem.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50);
+    }
+}
+typeWriter();
+
+// フォーム送信後に残りの問題文と正解を表示する
+document.querySelector('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    questionElem.innerHTML = text;  // 一斉表示
+    document.getElementById('correct_answer').style.display = 'block';
+    setTimeout(()=>{ e.target.submit(); }, 2000);  // 2秒後にフォーム送信
+});
+</script>
+{% endblock %}
