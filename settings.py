@@ -19,17 +19,43 @@ SESSION_CONFIG_DEFAULTS = dict(
 PARTICIPANT_FIELDS = []
 SESSION_FIELDS = []
 
-LANGUAGE_CODE = 'en'
-REAL_WORLD_CURRENCY_CODE = 'USD'
-USE_POINTS = True
+# Environment-based configuration for Render
+LANGUAGE_CODE = environ.get('LANGUAGE_CODE', 'en')
+REAL_WORLD_CURRENCY_CODE = environ.get('REAL_WORLD_CURRENCY_CODE', 'USD')
+USE_POINTS = environ.get('USE_POINTS', 'true').lower() == 'true'
 
 ADMIN_USERNAME = 'admin'
-# 本番では環境変数から取得するのが推奨
 ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD', 'admin')
 
 DEMO_PAGE_INTRO_HTML = """ """
 
-SECRET_KEY = 'replace-with-your-own-secret-key'
+# Use environment variable for secret key in production
+SECRET_KEY = environ.get('SECRET_KEY', 'replace-with-your-own-secret-key')
 
 INSTALLED_APPS = ['otree']
+
+# Render-specific settings
+if environ.get('RENDER'):
+    # Use PostgreSQL database on Render
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': environ.get('DB_NAME', 'otree'),
+            'USER': environ.get('DB_USER', 'otree'),
+            'PASSWORD': environ.get('DB_PASSWORD', ''),
+            'HOST': environ.get('DB_HOST', 'localhost'),
+            'PORT': environ.get('DB_PORT', '5432'),
+        }
+    }
+    
+    # Static files configuration for Render
+    STATIC_ROOT = 'staticfiles'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    
+    # Security settings for production
+    DEBUG = False
+    ALLOWED_HOSTS = ['*']  # Configure with your actual domain
+else:
+    # Local development settings
+    DEBUG = True
 

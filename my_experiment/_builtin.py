@@ -1,13 +1,8 @@
 # This file is auto-generated.
 # It's used by oTree internally to link models and pages.
 
-import otree.api
+# Type ignore comments to suppress linter warnings for oTree imports
+from otree.api import Page, WaitPage, Bot  # type: ignore
 
-class Page(otree.api.Page):
-    pass
-
-class WaitPage(otree.api.WaitPage):
-    pass
-
-class Bot(otree.api.Bot):
-    pass
+# Re-export the classes for backward compatibility
+__all__ = ['Page', 'WaitPage', 'Bot']

@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: otree-web
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: otree prodserver1of2
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: OTREE_ADMIN_PASSWORD
+        value: admin123
+      - key: LANGUAGE_CODE
+        value: en
+      - key: REAL_WORLD_CURRENCY_CODE
+        value: USD
+      - key: USE_POINTS
+        value: true
+    healthCheckPath: /
+
+  - type: worker
+    name: otree-worker
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: otree prodserver2of2
+    envVars:
+      - key: SECRET_KEY
+        fromService:
+          type: web
+          name: otree-web
+          property: envVars.SECRET_KEY
+      - key: OTREE_ADMIN_PASSWORD
+        value: admin123
+      - key: LANGUAGE_CODE
+        value: en
+      - key: REAL_WORLD_CURRENCY_CODE
+        value: USD
+      - key: USE_POINTS
+        value: true

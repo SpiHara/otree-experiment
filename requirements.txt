@@ -1,0 +1,6 @@
+# oTree requirements for Render deployment
+otree==5.11.4
+gunicorn>=21.0.0
+psycopg2-binary>=2.9.0
+whitenoise>=6.0.0
+sentry-sdk>=1.30.0
