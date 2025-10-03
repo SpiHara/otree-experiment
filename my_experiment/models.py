@@ -1,4 +1,6 @@
-from otree.api import *
+from otree.api import (
+    BaseConstants, BaseSubsession, BaseGroup, BasePlayer, models
+)
 
 class Constants(BaseConstants):
     name_in_url = 'quiz'

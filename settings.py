@@ -9,7 +9,6 @@ SESSION_CONFIGS = [
     ),
 ]
 
-
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00,
     participation_fee=0.00,
@@ -27,6 +26,8 @@ USE_POINTS = environ.get('USE_POINTS', 'true').lower() == 'true'
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD', 'admin')
 
+AUTH_LEVEL = environ.get('AUTH_LEVEL', None)
+
 DEMO_PAGE_INTRO_HTML = """ """
 
 # Use environment variable for secret key in production
@@ -36,7 +37,6 @@ INSTALLED_APPS = ['otree']
 
 # Render-specific settings
 if environ.get('RENDER'):
-    # Use PostgreSQL database on Render
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -48,14 +48,10 @@ if environ.get('RENDER'):
         }
     }
     
-    # Static files configuration for Render
     STATIC_ROOT = 'staticfiles'
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     
-    # Security settings for production
     DEBUG = False
-    ALLOWED_HOSTS = ['*']  # Configure with your actual domain
+    ALLOWED_HOSTS = ['*']
 else:
-    # Local development settings
     DEBUG = True
-
