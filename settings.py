@@ -26,7 +26,7 @@ USE_POINTS = environ.get('USE_POINTS', 'true').lower() == 'true'
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD', 'admin')
 
-AUTH_LEVEL = environ.get('AUTH_LEVEL', None)
+AUTH_LEVEL = environ.get('OTREE_AUTH_LEVEL', 'STUDY')
 
 DEMO_PAGE_INTRO_HTML = """ """
 
