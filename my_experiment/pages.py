@@ -1,9 +1,6 @@
 from ._builtin import Page, WaitPage
-from .models import Constants
+from .models import Constants, Player, Group
 import random, time
-from ._builtin import Page, WaitPage
-from .models import Player, Group  # ← Groupも追加
-import random
 
 # 導入ページ
 class Introduction(Page):
@@ -15,6 +12,11 @@ class Introduction(Page):
 class Quiz(Page):
     form_model = 'player'
     form_fields = ['answer']
+    
+    def is_displayed(player: Player):
+        import time
+        player.start_time = time.time()  # ページ表示時に記録
+        return True
 
     def vars_for_template(player: Player):
         q_index = player.round_number - 1
@@ -27,8 +29,8 @@ class Quiz(Page):
         }
 
     def before_next_page(player: Player, timeout_happened):
-        start_time = player.participant.vars.get('start_time', time.time())
-        player.response_time = time.time() - start_time
+        import time
+        player.response_time = time.time() - player.start_time  # 正確な計算
         player.is_correct = player.answer == Constants.correct_answers[player.round_number-1]
 
 # WaitPage（競争者がいる場合に同期）

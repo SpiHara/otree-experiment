@@ -25,11 +25,6 @@ let text = "{{ question_text|escapejs }}";
 let i = 0;
 let questionElem = document.getElementById('question');
 
-let startTime = Date.now();
-player = player || {};
-player.participant_vars = player.participant_vars || {};
-player.participant_vars.start_time = startTime;
-
 function typeWriter() {
     if (i < text.length) {
         questionElem.innerHTML += text.charAt(i);

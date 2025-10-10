@@ -12,7 +12,7 @@ class Constants(BaseConstants):
         "問題3: 例題3",
         # …30問まで
     ]
-    correct_answers = ['A','B','C']  # 仮の正解リスト
+    correct_answers = ['A','B','C','D','A','B','C','D','A','B','C','D','A','B','C','D','A','B','C','D','A','B','C','D','A','B','C','D','A','B']  # 30個の正解
 
 class Subsession(BaseSubsession):
     pass
@@ -22,6 +22,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     has_competitor = models.BooleanField(initial=False)
+    start_time = models.FloatField(initial=0.0)  # 追加
     response_time = models.FloatField()
     answer = models.StringField(
         choices=['A','B','C','D'],
